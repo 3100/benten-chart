@@ -3,6 +3,7 @@ window.onload = () ->
     el: '#demo'
     data:
       title: 'Benten Chart'
+      ym: '2014年6月'
 
   demo2 = new Vue
     el: '#demo2'
@@ -27,6 +28,43 @@ window.onload = () ->
     methods:
       onToggleCheck: (e) ->
         checkClicked(demo2)
+        renderChart()
+
+  menuPieChart = null
+
+  renderChart = ->
+    if (menuPieChart)
+      menuPieChart.series[0].setData sumMenus(demo2.orders, true)
+      return
+    menuPieChart = new Highcharts.Chart
+      chart:
+        renderTo: 'menuPieChart'
+        plotBackgroundColor: null
+        plotBorderWidth: null
+        plotShadow: false
+      title:
+        text: '注文の種類'
+      tooltip:
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      plotOptions:
+        pie:
+          allowPointSelect: true
+          cursor: 'pointer'
+          dataLabels:
+            enabled:true
+          showInLegend: true
+      series:[
+        type: 'pie'
+        name: '比率'
+        data: sumMenus(demo2.orders)
+      ]
+
+  sumMenus = (orders) ->
+    Enumerable.From(orders)
+      .GroupBy("$.menu", null,
+        "{ y: $$.Count(), name: $}")
+      .OrderByDescending("$.y")
+      .ToArray()
 
   checkClicked = (demo) ->
     checked = $("input[id^=check]").toEnumerable()
@@ -69,6 +107,7 @@ window.onload = () ->
       demo.master = json
       demo.orders = json
       demo.menus = getMenu json
+      renderChart demo.orders
 
   loadOrders = () ->
     $.ajax
