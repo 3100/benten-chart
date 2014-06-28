@@ -46,7 +46,7 @@
               <th>平均単価</th>
           <tbody>
             <tr v-repeat="sums" v-on="click: onSelectUser(this)">
-              <td>{{user}}</td>
+              <td style="cursor:pointer;">{{user}}</td>
               <td>{{count}}回</td>
               <td>{{sum}}円</td>
               <td>{{Math.ceil(sum/count)}}円</td>
