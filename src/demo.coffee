@@ -29,13 +29,16 @@ window.onload = () ->
       onToggleCheck: (e) ->
         checkClicked(demo2)
         renderChart()
+      onSelectUser: (sum) ->
+        user = sum.user
+        renderUserChart user
 
   menuPieChart = null
 
   renderChart = ->
-    if (menuPieChart)
-      menuPieChart.series[0].setData sumMenus(demo2.orders, true)
-      return
+    #if (menuPieChart)
+    #  menuPieChart.series[0].setData sumMenus(demo2.orders, true)
+    #  return
     menuPieChart = new Highcharts.Chart
       chart:
         renderTo: 'menuPieChart'
@@ -59,8 +62,40 @@ window.onload = () ->
         data: sumMenus(demo2.orders)
       ]
 
+  renderUserChart = (user) ->
+    menuPieChart = new Highcharts.Chart
+      chart:
+        renderTo: 'menuPieChart'
+        plotBackgroundColor: null
+        plotBorderWidth: null
+        plotShadow: false
+      title:
+        text: "#{user}さんの注文"
+      tooltip:
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      plotOptions:
+        pie:
+          allowPointSelect: true
+          cursor: 'pointer'
+          dataLabels:
+            enabled:true
+          showInLegend: true
+      series:[
+        type: 'pie'
+        name: '比率'
+        data: sumUser(user, demo2.orders)
+      ]
+
   sumMenus = (orders) ->
     Enumerable.From(orders)
+      .GroupBy("$.menu", null,
+        "{ y: $$.Count(), name: $}")
+      .OrderByDescending("$.y")
+      .ToArray()
+
+  sumUser = (user, orders) ->
+    Enumerable.From(orders)
+      .Where((x) -> x.user == user)
       .GroupBy("$.menu", null,
         "{ y: $$.Count(), name: $}")
       .OrderByDescending("$.y")
