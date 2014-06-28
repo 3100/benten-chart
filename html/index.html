@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>hoge</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gumby/2.5.11/css/gumby.css">
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/jquery.linq.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/canvasjs/1.4.1/canvas.min.js"></script>
+    <script type="text/javascript" src="/js/demo.js"></script>
+  </head>
+  <body>
+    <div id="demo" class="row">
+      <h1>{{title | uppercase}}</h1>
+    </div>
+    <div id="demo2" class="row">
+      <div class="three columns">
+        <h2>Menus</h2>
+        <ul>
+          <li v-repeat="menus">
+            <label class="checkbox" for="check{{$index}}">
+              <input v-on="click: onToggleCheck"
+              name="checkbox[]" id="check{{$index}}"
+              value="{{$index}}" type="checkbox" checked="{{checked}}">
+              <span class="ttip" data-tooltip="{{price}} 円">{{name}}</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div class="five columns">
+        <p>
+          <span>合計注文数: </span>
+          <span v-model="ordersCount">
+          {{$value}}
+          </span>
+        </p>
+        <table class="rounded striped">
+          <thead>
+            <tr>
+              <th>注文者</th>
+              <th>注文回数</th>
+              <th>合計金額</th>
+              <th>平均単価</th>
+          <tbody>
+            <tr v-repeat="sums">
+              <td>{{user}}</td>
+              <td>{{count}}回</td>
+              <td>{{sum}}円</td>
+              <td>{{Math.ceil(sum/count)}}円</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
