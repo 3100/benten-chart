@@ -15,7 +15,7 @@ Benten Chart
 
 ## development
 
-This project uses `coffeesciprt` and `compass` (mainly for `sass`).
+This project uses `coffeescript` and `compass` (mainly for `sass`).
 
 For processing files:
 
@@ -23,7 +23,7 @@ For processing files:
 $ grunt heroku
 ~~~
 
-For developping:
+For developing:
 
 ~~~
 $ grunt
