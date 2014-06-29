@@ -147,7 +147,7 @@ window.onload = () ->
   loadOrders = () ->
     $.ajax
       type: 'GET'
-      url: "http://ipl-benten.herokuapp.com/api/orders"
+      url: "/* @echo BENTEN_API_ORDERS_URL */"
       dataType: 'jsonp'
       jsonpCallback: 'callback'
       success: (json) ->

@@ -6,7 +6,7 @@ module.exports = (grunt) ->
       options:
         livereload: true
       coffee:
-        tasks: 'coffee'
+        tasks: ['preprocess', 'coffee']
         files: ['src/**/*.coffee']
       html:
         files: ['html/**/*.html']
@@ -29,8 +29,14 @@ module.exports = (grunt) ->
         options:
           port: 9000
           #base: 'html'
+    preprocess:
+      coffee:
+        src: 'src/demo.coffee'
+        dest: 'src/demo.processed.coffee'
+
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-connect'
+  grunt.loadNpmTasks 'grunt-preprocess'
   grunt.registerTask 'default', ['connect', 'watch']
   return
