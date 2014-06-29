@@ -6,7 +6,7 @@ module.exports = (grunt) ->
         livereload: true
       coffee:
         tasks: ['preprocess', 'coffee:compile']
-        files: ['src/**/*.coffee']
+        files: ['src/coffee/**/*.coffee']
       express:
         tasks: 'coffee:express'
         files: ['app.coffee']
@@ -14,12 +14,13 @@ module.exports = (grunt) ->
         files: ['public/**/*.html']
       js:
         files: ['public/js/**/*.js']
-      css:
-        files: ['public/css/**/*.css']
+      compass:
+        files: ['src/sass/**/*.sass']
+        tasks: ['compass']
     coffee:
       compile:
         expand: true
-        cwd: 'src/'
+        cwd: 'src/coffee/'
         src: ['**/*.coffee']
         dest: 'public/js/'
         ext: '.js'
@@ -32,6 +33,11 @@ module.exports = (grunt) ->
         src: ['app.coffee']
         dest: '.'
         ext: '.js'
+    compass:
+      dist:
+        options:
+          sassDir: 'src/sass'
+          cssDir: 'public/css'
     connect:
       server:
         options:
@@ -39,12 +45,13 @@ module.exports = (grunt) ->
           base: 'public'
     preprocess:
       coffee:
-        src: 'src/benten-chart.coffee'
-        dest: 'src/benten-chart.processed.coffee'
+        src: 'src/coffee/benten-chart.coffee'
+        dest: 'src/coffee/benten-chart.processed.coffee'
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-connect'
+  grunt.loadNpmTasks 'grunt-contrib-compass'
   grunt.loadNpmTasks 'grunt-preprocess'
   grunt.registerTask 'default', ['connect', 'watch']
   grunt.registerTask 'heroku', ['preprocess', 'coffee:compile', 'coffee:express']
