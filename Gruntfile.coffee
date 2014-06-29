@@ -54,5 +54,5 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-compass'
   grunt.loadNpmTasks 'grunt-preprocess'
   grunt.registerTask 'default', ['connect', 'watch']
-  grunt.registerTask 'heroku', ['preprocess', 'coffee:compile', 'coffee:express']
+  grunt.registerTask 'heroku', ['preprocess', 'coffee:compile', 'coffee:express', 'compass:dist']
   return
