@@ -39,8 +39,8 @@ module.exports = (grunt) ->
           base: 'public'
     preprocess:
       coffee:
-        src: 'src/demo.coffee'
-        dest: 'src/demo.processed.coffee'
+        src: 'src/benten-chart.coffee'
+        dest: 'src/benten-chart.processed.coffee'
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'

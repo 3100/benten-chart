@@ -1,12 +1,12 @@
 window.onload = () ->
-  demo = new Vue
-    el: '#demo'
+  header = new Vue
+    el: '#header'
     data:
       title: 'Benten Chart'
       ym: '2014年6月'
 
-  demo2 = new Vue
-    el: '#demo2'
+  main = new Vue
+    el: '#main'
     data:
       master: []
       menus: []
@@ -27,7 +27,7 @@ window.onload = () ->
             .ToArray()
     methods:
       onToggleCheck: (e) ->
-        checkClicked(demo2)
+        checkClicked(main)
         renderChart()
       onSelectUser: (sum) ->
         user = sum.user
@@ -36,33 +36,13 @@ window.onload = () ->
   menuPieChart = null
 
   renderChart = ->
-    #if (menuPieChart)
-    #  menuPieChart.series[0].setData sumMenus(demo2.orders, true)
-    #  return
-    menuPieChart = new Highcharts.Chart
-      chart:
-        renderTo: 'menuPieChart'
-        plotBackgroundColor: null
-        plotBorderWidth: null
-        plotShadow: false
-      title:
-        text: '注文の種類'
-      tooltip:
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      plotOptions:
-        pie:
-          allowPointSelect: true
-          cursor: 'pointer'
-          dataLabels:
-            enabled:true
-          showInLegend: true
-      series:[
-        type: 'pie'
-        name: '比率'
-        data: sumMenus(demo2.orders)
-      ]
+    renderPieChart '注文の種類', sumMenus(main.orders)
 
   renderUserChart = (user) ->
+    renderPieChart "#{user}さんの注文", sumUser(user, main.orders)
+
+  renderPieChart = (text, data) ->
+    #$('#menuPieChart').highcharts
     menuPieChart = new Highcharts.Chart
       chart:
         renderTo: 'menuPieChart'
@@ -70,7 +50,7 @@ window.onload = () ->
         plotBorderWidth: null
         plotShadow: false
       title:
-        text: "#{user}さんの注文"
+        text: text
       tooltip:
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
       plotOptions:
@@ -83,7 +63,7 @@ window.onload = () ->
       series:[
         type: 'pie'
         name: '比率'
-        data: sumUser(user, demo2.orders)
+        data: data
       ]
 
   sumMenus = (orders) ->
@@ -156,4 +136,4 @@ window.onload = () ->
       error: (res, status, err) ->
         alert status
 
-  loadOrdersDemo(demo2)
+  loadOrdersDemo(main)
