@@ -2,6 +2,8 @@
 *.log
 app.js
 .sass-cache/
-js/
 node_modules/
-src/*.processed.coffee
+public/css/
+public/js/
+**/*.processed.coffee
+

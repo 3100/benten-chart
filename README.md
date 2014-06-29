@@ -6,8 +6,8 @@ Benten Chart
 * vue.js
 * linq.js
 * jQuery
+* highcharts
 * Gumby
-* grunt
 
 ## environments
 
@@ -15,7 +15,15 @@ Benten Chart
 
 ## development
 
+This project uses `coffeesciprt` and `compass` (mainly for `sass`).
+
 For processing files:
+
+~~~
+$ grunt heroku
+~~~
+
+For developping:
 
 ~~~
 $ grunt
@@ -23,8 +31,10 @@ $ grunt
 
 ## deploy to heroku
 
-To let `compass` works well on `heroku`, use a custom buildpack like below:
+To let `compass` work well on `heroku`, use a custom buildpack like below:
 
 ~~~
 heroku config:set BUILDPACK_URL=https://github.com/treasure-data/heroku-buildpack-nodejs-grunt-compass-configurable.git
 ~~~
+
+cf. https://github.com/treasure-data/heroku-buildpack-nodejs-grunt-compass-configurable.git
