@@ -1,5 +1,4 @@
 module.exports = (grunt) ->
-  # Gruntの設定
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
     watch:
@@ -9,17 +8,17 @@ module.exports = (grunt) ->
         tasks: ['preprocess', 'coffee']
         files: ['src/**/*.coffee']
       html:
-        files: ['html/**/*.html']
+        files: ['public/**/*.html']
       js:
-        files: ['js/**/*.js']
+        files: ['public/js/**/*.js']
       css:
-        files: ['css/**/*.css']
+        files: ['public/css/**/*.css']
     coffee:
       compile:
         expand: true
         cwd: 'src/'
         src: ['**/*.coffee']
-        dest: 'js/'
+        dest: 'public/js/'
         ext: '.js'
         options:
           # グローバル名前空間保護しない
@@ -28,7 +27,7 @@ module.exports = (grunt) ->
       server:
         options:
           port: 9000
-          #base: 'html'
+          base: 'public'
     preprocess:
       coffee:
         src: 'src/demo.coffee'
