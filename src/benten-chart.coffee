@@ -3,7 +3,31 @@ window.onload = () ->
     el: '#header'
     data:
       title: 'Benten Chart'
-      ym: '2014年6月'
+      dateMs: Date.now()
+    computed:
+      year: () ->
+        new Date(@dateMs).getFullYear()
+      month: () ->
+        new Date(@dateMs).getMonth() + 1
+      ym: () ->
+        date = new Date(@dateMs)
+        m = date.getMonth()+1
+        if m < 10
+          m = '0' + m;
+        "#{date.getFullYear()}年#{m}月"
+    methods:
+      nextMonth: () ->
+        date = new Date(@dateMs)
+        date.setMonth(date.getMonth()+1)
+        @dateMs = date.getTime()
+        updateOrders(main)
+        renderChart()
+      prevMonth: () ->
+        date = new Date(@dateMs)
+        date.setMonth(date.getMonth()-1)
+        @dateMs = date.getTime()
+        updateOrders(main)
+        renderChart()
 
   main = new Vue
     el: '#main'
@@ -11,15 +35,14 @@ window.onload = () ->
       master: []
       menus: []
       orders: []
-      #sums: []
+      user: null
     computed:
       ordersCount:
         $get: () ->
-          this.orders.length
+          @orders.length
       sums:
         $get: ()->
-          #calcSums(this.orders)
-          Enumerable.From(this.orders)
+          Enumerable.From(@orders)
             .GroupBy("$.user",
               null,
               "{ user: $, count: $$.Count(), sum: $$.Sum('$.price')}")
@@ -28,18 +51,28 @@ window.onload = () ->
     methods:
       onToggleCheck: (e) ->
         checkClicked(main)
-        renderChart()
+        renderMenuChart()
+        @user = null
       onSelectUser: (sum) ->
-        user = sum.user
-        renderUserChart user
+        @user = sum.user
+        renderUserChart @user
 
   menuPieChart = null
+  showsMenuChart = true
 
   renderChart = ->
+    if showsMenuChart
+      renderMenuChart()
+    else
+      renderUserChart(main.user)
+
+  renderMenuChart = ->
     renderPieChart '注文の種類', sumMenus(main.orders)
+    showsMenuChart = true
 
   renderUserChart = (user) ->
     renderPieChart "#{user}さんの注文", sumUser(user, main.orders)
+    showsMenuChart = false
 
   renderPieChart = (text, data) ->
     #$('#menuPieChart').highcharts
@@ -65,6 +98,10 @@ window.onload = () ->
         name: '比率'
         data: data
       ]
+
+  isSameMonth = (date1, date2) ->
+    date1.getFullYear() == date2.getFullYear() &&
+      date1.getMonth() == date2.getMonth()
 
   sumMenus = (orders) ->
     Enumerable.From(orders)
@@ -94,7 +131,9 @@ window.onload = () ->
       .Where("$.checked == true")
       .Select("$.name")
       .ToArray()
+    date = new Date(header.dateMs)
     demo.orders = Enumerable.From(demo.master)
+      .Where((x) -> isSameMonth(date, new Date(x.date)))
       .Where((x) -> checkedMenu.indexOf(x.menu) >= 0)
       .ToArray()
 
@@ -106,8 +145,8 @@ window.onload = () ->
       .OrderByDescending("$.count")
       .ToArray()
 
-  getMenu = (json) ->
-    Enumerable.From(json)
+  getMenu = (orders) ->
+    Enumerable.From(orders)
       .Distinct("$.menu")
       .OrderByDescending("$.price")
       .Select((x) ->
@@ -122,7 +161,7 @@ window.onload = () ->
       demo.master = json
       demo.orders = json
       demo.menus = getMenu json
-      renderChart demo.orders
+      renderMenuChart demo.orders
 
   loadOrders = () ->
     $.ajax

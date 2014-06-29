@@ -1,5 +1,7 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>hoge</title>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gumby/2.5.11/css/gumby.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
@@ -13,11 +15,17 @@
   </head>
   <body>
     <div id="header" class="row">
-      <h1>{{title | uppercase}}<small class="small" style="margin-left:10px">{{ym}}</small></h1>
+      <h1>{{title | uppercase}}
+        <small class="small" style="margin-left:10px">
+          <i class="icon-left-open-mini" v-on="click: prevMonth"></i>
+          {{ym}}
+          <i class="icon-right-open-mini" v-on="click: nextMonth"></i>
+        </small>
+      </h1>
     </div>
     <div id="main" class="row">
       <div class="six columns">
-        <h2>Menus</h2>
+        <h2 id="menus" class="large" v-on="click: onToggleCheck">Menus</h2>
         <ul>
           <li v-repeat="menus">
             <label class="checkbox" for="check{{$index}}">
@@ -30,7 +38,7 @@
         </ul>
         <div id="menuPieChart"></div>
       </div>
-      <div class="five columns">
+      <div class="six columns">
         <p>
           <span>合計注文数: </span>
           <span v-model="ordersCount">
@@ -45,11 +53,11 @@
               <th>合計金額</th>
               <th>平均単価</th>
           <tbody>
-            <tr v-repeat="sums" v-on="click: onSelectUser(this)">
-              <td style="cursor:pointer;">{{user}}</td>
-              <td>{{count}}回</td>
-              <td>{{sum}}円</td>
-              <td>{{Math.ceil(sum/count)}}円</td>
+            <tr class="{{user == sum.user ? 'selected' : ''}}" v-repeat="sum: sums" v-on="click: onSelectUser(sum)">
+              <td class="td-user">{{sum.user}}</td>
+              <td>{{sum.count}}回</td>
+              <td>{{sum.sum}}円</td>
+              <td>{{Math.ceil(sum.sum/sum.count)}}円</td>
             </tr>
           </tbody>
         </table>
