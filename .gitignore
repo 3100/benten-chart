@@ -1,4 +1,6 @@
 *.swp
+*.log
+app.js
 js/
 node_modules/
 src/*.processed.coffee

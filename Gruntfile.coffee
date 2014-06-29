@@ -5,8 +5,11 @@ module.exports = (grunt) ->
       options:
         livereload: true
       coffee:
-        tasks: ['preprocess', 'coffee']
+        tasks: ['preprocess', 'coffee:compile']
         files: ['src/**/*.coffee']
+      express:
+        tasks: 'coffee:express'
+        files: ['app.coffee']
       html:
         files: ['public/**/*.html']
       js:
@@ -23,6 +26,12 @@ module.exports = (grunt) ->
         options:
           # グローバル名前空間保護しない
           bare: true
+      express:
+        expand: true
+        cwd: '.'
+        src: ['app.coffee']
+        dest: '.'
+        ext: '.js'
     connect:
       server:
         options:
@@ -38,4 +47,5 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-connect'
   grunt.loadNpmTasks 'grunt-preprocess'
   grunt.registerTask 'default', ['connect', 'watch']
+  grunt.registerTask 'heroku', ['preprocess', 'coffee:compile', 'coffee:express']
   return
