@@ -58,5 +58,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-preprocess'
   grunt.loadNpmTasks 'grunt-env'
   grunt.registerTask 'default', ['connect', 'watch']
-  grunt.registerTask 'heroku', ['env:build', 'preprocess', 'coffee:compile', 'coffee:express', 'compass:dist']
+  #grunt.registerTask 'heroku', ['env:build', 'preprocess', 'coffee:compile', 'coffee:express', 'compass:dist']
+  grunt.registerTask 'heroku', ['preprocess', 'coffee:compile', 'coffee:express', 'compass:dist']
   return
