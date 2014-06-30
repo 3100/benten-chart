@@ -9,9 +9,16 @@ Benten Chart
 * highcharts
 * Gumby
 
+## requirements
+
+* `node.js` (`nvm` seems good to manage multiple versions)
+* `grunt`
+* `grunt-cli`
+
 ## environments
 
 * BENTEN_API_ORDERS_URL
+
 
 ## development
 
