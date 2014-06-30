@@ -156,6 +156,7 @@ window.onload = () ->
       )
       .ToArray()
 
+  # for debug in early days
   loadOrdersDemo = (demo) ->
     $.getJSON "/orders.json", (json) ->
       demo.master = json
@@ -163,16 +164,18 @@ window.onload = () ->
       demo.menus = getMenu json
       renderMenuChart demo.orders
 
-  loadOrders = () ->
+  loadOrders = (main) ->
     $.ajax
       type: 'GET'
       url: "/* @echo BENTEN_API_ORDERS_URL */"
       dataType: 'jsonp'
       jsonpCallback: 'callback'
       success: (json) ->
-        len = json.length
-        alert len
+        main.master = json
+        main.orders = json
+        main.menus = getMenu json
+        renderMenuChart main.orders
       error: (res, status, err) ->
         alert status
 
-  loadOrdersDemo(main)
+  loadOrders(main)
