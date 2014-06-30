@@ -20,13 +20,19 @@ module.exports = (grunt) ->
     coffee:
       compile:
         expand: true
-        cwd: 'src/coffee/'
-        src: ['**/*.coffee']
-        dest: 'public/js/'
-        ext: '.js'
+        files:
+          'public/js/app.js' : [
+            'src/coffee/benten-chart.processed.coffee'
+            'src/coffee/renderer.coffee'
+          ]
+        #cwd: 'src/coffee/'
+        #src: ['**/*.coffee']
+        #dest: 'public/js/'
+        #ext: 'app.js'
         options:
           # グローバル名前空間保護しない
           bare: true
+          join: true
       express:
         expand: true
         cwd: '.'

@@ -11,19 +11,21 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/jquery.linq.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.1/highcharts.js"></script>
-    <script type="text/javascript" src="/js/benten-chart.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
   </head>
-  <body>
-    <div id="header" class="row">
-      <h1>{{title | uppercase}}
-        <small class="small" style="margin-left:10px">
-          <i class="icon-left-open-mini" v-on="click: prevMonth"></i>
-          {{ym}}
-          <i class="icon-right-open-mini" v-on="click: nextMonth"></i>
-        </small>
-      </h1>
+  <body id="main">
+    <div class="row">
+      <div class="twelve columns">
+        <h1>{{title | uppercase}}
+          <small class="small" style="margin-left:10px">
+            <i class="icon-left-open-mini" v-on="click: onGoPrevMonth"></i>
+            {{ym}}
+            <i class="icon-right-open-mini" v-on="click: onGoNextMonth"></i>
+          </small>
+        </h1>
+      </div>
     </div>
-    <div id="main" class="row">
+    <div class="row">
       <div class="six columns">
         <h2 id="menus" class="large" v-on="click: onToggleCheck">Menus</h2>
         <ul>
