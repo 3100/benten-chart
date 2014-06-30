@@ -1,9 +1,9 @@
 module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
-    env:
-      build:
-        BENTEN_API_ORDERS_URL: process.env.BENTEN_API_ORDERS_URL || '/orders.json'
+    #env:
+    #  build:
+    #    BENTEN_API_ORDERS_URL: process.env.BENTEN_API_ORDERS_URL || '/orders.json'
     watch:
       options:
         livereload: true
