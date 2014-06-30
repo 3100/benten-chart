@@ -19,7 +19,6 @@ Benten Chart
 
 * BENTEN_API_ORDERS_URL
 
-
 ## development
 
 This project uses `coffeescript` and `compass` (mainly for `sass`).
