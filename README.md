@@ -40,7 +40,7 @@ $ grunt
 To let `compass` work well on `heroku`, use a custom buildpack like below:
 
 ~~~
-heroku config:set BUILDPACK_URL=https://github.com/treasure-data/heroku-buildpack-nodejs-grunt-compass-configurable.git
+heroku config:set BUILDPACK_URL=https://github.com/3100/heroku-buildpack-nodejs-grunt-compass-configurable.git
 ~~~
 
 cf. https://github.com/treasure-data/heroku-buildpack-nodejs-grunt-compass-configurable.git
