@@ -1,6 +1,9 @@
 module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
+    env:
+      build:
+        BENTEN_API_ORDERS_URL: process.env.BENTEN_API_ORDERS_URL || '/orders.json'
     watch:
       options:
         livereload: true
@@ -53,6 +56,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-connect'
   grunt.loadNpmTasks 'grunt-contrib-compass'
   grunt.loadNpmTasks 'grunt-preprocess'
+  grunt.loadNpmTasks 'grunt-env'
   grunt.registerTask 'default', ['connect', 'watch']
-  grunt.registerTask 'heroku', ['preprocess', 'coffee:compile', 'coffee:express', 'compass:dist']
+  grunt.registerTask 'heroku', ['env:build', 'preprocess', 'coffee:compile', 'coffee:express', 'compass:dist']
   return
