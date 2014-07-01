@@ -44,17 +44,16 @@ window.onload = () ->
         for c, i in checked
           @menus[i].checked = c
       loadOrders: ->
-        self = this
         $.ajax
           type: 'GET'
           url: "/* @echo BENTEN_API_ORDERS_URL */"
           dataType: 'jsonp'
           jsonpCallback: 'callback'
-          success: (json) ->
-            self.master = json
-            self.updateMenus()
-            self.updateOrders()
-            self.renderMenuChart()
+          success: (json) =>
+            @master = json
+            @updateMenus()
+            @updateOrders()
+            @renderMenuChart()
           error: (res, status, err) ->
             alert status
       renderChart: ->
@@ -89,10 +88,9 @@ window.onload = () ->
           .Where((x) -> isSameMonth(date, new Date(x.date)))
           .Where((x) -> checkedMenu.indexOf(x.menu) >= 0)
           .ToArray()
-
-  isSameMonth = (date1, date2) ->
-    date1.getFullYear() == date2.getFullYear() &&
-      date1.getMonth() == date2.getMonth()
+    isSameMonth = (date1, date2) ->
+      date1.getFullYear() == date2.getFullYear() &&
+        date1.getMonth() == date2.getMonth()
 
   renderer = new Renderer()
   main.loadOrders()
